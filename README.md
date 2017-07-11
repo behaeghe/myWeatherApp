@@ -1,2 +1,2 @@
-# myWeatherApp
-Exploring Shiny Web App Development
+# Interactive Map of the New England Snow and Map Coverage
+
