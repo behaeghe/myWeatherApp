@@ -13,13 +13,17 @@ shinyServer(function(input, output) {
                         setView(lng=-71.0589, lat=42.3601, zoom = 8) %>%
                         addProviderTiles("Stamen.Toner") 
                 output$weather <- renderLeaflet(map)        
-                observe(dateSelected <- format(input$inDt,"%F"))
-                observe(leafletProxy("weather") %>% 
-                        removeTiles("weather")
-                        addProviderTiles("NASAGIBS.ModisTerraTrueColorCR",
-                                 options = providerTileOptions(time =dateSelected, opacity = 0.5)) %>%
-                        addMarkers(lng=-71.0589, lat=42.3601, popup="The Hub: Boston MA"))
-       
+                observe({dateSelected <- format(input$inDt,"%F")
+                leafletProxy("weather",data=dateSelected) %>% 
+                                                clearTiles() %>%
+                                                addProviderTiles("Stamen.Toner") %>%
+                                                addProviderTiles("Stamen.TonerLabels") %>%
+                                                addProviderTiles("Stamen.TonerLines") %>%
+                                                      addProviderTiles("NASAGIBS.ModisTerraTrueColorCR",
+                                                                        options = providerTileOptions(time =dateSelected, opacity = 0.5)) %>%
+                        addMarkers(lng=-71.0589, lat=42.3601, popup="The Hub: Boston MA")
+                        })
+      
          output$whatDate = renderText(format(input$inDt,"%F"))
   
   })
